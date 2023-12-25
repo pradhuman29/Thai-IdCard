@@ -1,11 +1,11 @@
 import React, { useEffect, useState } from 'react';
 import Axios from 'axios';
-import UserDetailsCard from './../cards/card'; // Assuming you have a UserDetailsCard component
+import UserDetailsCard from './../cards/card';
 
 function createUserDetailsCard(user) {
     return (
         <UserDetailsCard
-            key={user.user_id} // Assuming IdentificationNumber is a unique identifier
+            key={user.user_id} 
             identificationNumber={user.identification_number}
             firstName={user.name}
             lastName={user.last_name}
