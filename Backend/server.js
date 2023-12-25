@@ -3,7 +3,6 @@ const express = require("express");
 const session = require('express-session');
 const cors = require("cors");
 const app = express();
-
 app.use(express.json());
 app.use(cors());
 const db = mysql.createConnection({
@@ -12,7 +11,6 @@ const db = mysql.createConnection({
     password: "Hanney@123",
     database: "id_card"
 });
-
 db.connect((err) => {
     if (err) {
         console.error(err);
@@ -21,8 +19,7 @@ db.connect((err) => {
     }
 });
 app.post("/endpoint", (req, res) => {
-    const userData = req.body; // Assuming the user object data is sent in the request body
-
+    const userData = req.body; 
     const {
         IdentificationNumber,
         FirstName,
@@ -32,16 +29,12 @@ app.post("/endpoint", (req, res) => {
         DateOfExpiry,
     } = userData;
     console.log(userData)
-
     let status = ''; // Initializing status variable
-
-    // Checking if all necessary fields are not null
     if (IdentificationNumber && FirstName && LastName && DateOfBirth && DateOfIssue && DateOfExpiry) {
-        status = 'success'; // If all fields are present, assign 'success'
+        status = 'success';
     } else {
-        status = 'failure'; // If any field is missing, assign 'failure'
+        status = 'failure'; 
     }
-
     const insertUserQuery = `INSERT INTO ocrdummy (identification_number, name, last_name, date_of_birth, date_of_issue, date_of_expiry, status) VALUES (?, ?, ?, ?, ?, ?, ?)`;
     db.query(
         insertUserQuery,
@@ -57,12 +50,8 @@ app.post("/endpoint", (req, res) => {
         }
     );
 });
-
-
-
 app.get("/showdetails", (req, res) => {
     const selectUserQuery = `SELECT * FROM ocrdummy`;
-
     db.query(selectUserQuery, (err, result) => {
         if (err) {
             console.error("Error fetching user details:", err);
@@ -78,13 +67,10 @@ app.get("/showdetails", (req, res) => {
                 date_of_expiry: row.date_of_expiry,
                 status: row.status,
             }));
-
             res.status(200).json({ users });
         }
     });
 });
-
-
 app.listen(8000, () => {
     console.log("running server");
 });
