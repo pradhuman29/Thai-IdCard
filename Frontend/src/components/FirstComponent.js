@@ -4,12 +4,14 @@ import axios from 'axios';
 import './../App.css'
 
 
+
+
 const extractInformation = (text) => {
     const identificationNumberRegex = /\b\d{1,2}\s\d{4}\s\d{5}\s\d{2}\s\d\b/g;
-    const nameRegex = /(?:Miss|Mr\.|นาย\s|น\.ส\.)\s[a-zA-Z]+\s(?:[a-zA-Z]+\s)?[a-zA-Z]+/g;
+    const nameRegex = /(?:Miss|Mr\.)\s[a-zA-Z]+\s[a-zA-Z]+/g;
     const dobRegex = /\b\d{1,2}\s(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s\d{4}\b/g;
-    const doiRegex = /(?<=Date of Issue|วันออกบัตร)\s+\b\d{1,2}\s(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s\d{4}\b/g;
-    const doeRegex = /(?<=Date of Expiry|วันบัตรหมดอายุ)\s+\b\d{1,2}\s(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s\d{4}\b/g;
+    const doiRegex = /\b\d{1,2}\s(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s\d{4}\b/g;
+    const doeRegex = /\b\d{1,2}\s(?:Jan(?:uary)?|Feb(?:ruary)?|Mar(?:ch)?|Apr(?:il)?|May|Jun(?:e)?|Jul(?:y)?|Aug(?:ust)?|Sep(?:tember)?|Oct(?:ober)?|Nov(?:ember)?|Dec(?:ember)?)\s\d{4}\b/g;
 
     const identificationMatch = text.match(identificationNumberRegex);
     const nameMatch = text.match(nameRegex);
@@ -43,15 +45,16 @@ const extractInformation = (text) => {
     }
 };
 
+
+
 const ImageUploader = () => {
     const [selectedImage, setSelectedImage] = useState(null);
     const [ocrResult, setOcrResult] = useState(null);
     const navigate = useNavigate()
-    const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; 
+    const MAX_FILE_SIZE_BYTES = 2 * 1024 * 1024; // Maximum file size in bytes (2MB)
 
     const performOCR = async (imageData) => {
         const apiKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyX2lkIjoiZTNmMDI3MDctOGM0Zi00OGM1LWE4ZTctOWQ1NTk0Y2RkZDdmIiwidHlwZSI6ImFwaV90b2tlbiJ9.G8f9hOmbCbIV05Sdgufg7oESzXt7caOykwl9RaD0ifg'; 
-
         const formData = new FormData();
         formData.append('providers', 'google');
         formData.append('file', imageData);
@@ -69,6 +72,7 @@ const ImageUploader = () => {
 
 
             const googleData = response.data['google'];
+
             const textValue = googleData ? googleData['text'] : '';
 
             const user = extractInformation(textValue);
@@ -83,12 +87,14 @@ const ImageUploader = () => {
                         navigate("/first");
                     } catch (error) {
                         console.error("Error storing user data in local storage:", error);
+                        // Handle the error, e.g., show a user-friendly message
                     }
                 } else {
                     alert("Insufficient Entry! Please try again");
                 }
 
             });
+
             setOcrResult(response.data);
         } catch (error) {
             console.error('Error during OCR processing:', error);
@@ -99,12 +105,15 @@ const ImageUploader = () => {
         const file = event.target.files[0];
 
         if (file) {
+            // Check file size
             if (file.size > MAX_FILE_SIZE_BYTES) {
+                // File size exceeds the maximum limit
                 alert('File size exceeds 2MB. Please select a smaller file.');
-                event.target.value = null;
-                setSelectedImage(null);
+                event.target.value = null; 
+                setSelectedImage(null); 
             } else {
                 setSelectedImage(file);
+            
             }
         }
     };
@@ -118,18 +127,10 @@ const ImageUploader = () => {
     };
 
     return (
-        <div className='hell'>
+        <div style={{ marginTop: "300px" }}>
             <h2>Thai ID Card Image Uploader</h2>
             <input type="file" accept="image/*" onChange={handleImageChange} />
             <button disabled={!selectedImage} onClick={handleUpload}>Upload Image</button>
-
-            {ocrResult && (
-                <div>
-                    <h3>OCR Result:</h3>
-                    <pre>{JSON.stringify(ocrResult, null, 2)}</pre>
-
-                </div>
-            )}
         </div>
     );
 };
