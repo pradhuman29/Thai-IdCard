@@ -4,8 +4,6 @@ import axios from 'axios';
 import './../App.css'
 
 
-
-
 const extractInformation = (text) => {
     const identificationNumberRegex = /\b\d{1,2}\s\d{4}\s\d{5}\s\d{2}\s\d\b/g;
     const nameRegex = /(?:Miss|Mr\.)\s[a-zA-Z]+\s[a-zA-Z]+/g;
@@ -44,7 +42,6 @@ const extractInformation = (text) => {
         return null;
     }
 };
-
 
 
 const ImageUploader = () => {
@@ -101,6 +98,7 @@ const ImageUploader = () => {
         }
     };
 
+    
     const handleImageChange = (event) => {
         const file = event.target.files[0];
 
@@ -118,6 +116,7 @@ const ImageUploader = () => {
         }
     };
 
+    
     const handleUpload = () => {
         if (selectedImage) {
             performOCR(selectedImage);
@@ -134,5 +133,6 @@ const ImageUploader = () => {
         </div>
     );
 };
+
 
 export default ImageUploader;
