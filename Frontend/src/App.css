@@ -1,32 +1,22 @@
-/* Body */
 body {
   font-family: Arial, sans-serif;
   background-color: #f4f4f4;
   color: #333;
-
   padding: 0;
   text-align: center;
 }
 
-/* Headings */
-h1,
-h2,
-h3,
-h4,
-h5,
-h6 {
+h1,h2,h3,h4,h5,h6 {
   margin-top: 0;
   margin-bottom: 10px;
   font-weight: bold;
 }
 
-/* Paragraphs */
 p {
   margin-top: 0;
   margin-bottom: 10px;
 }
 
-/* Links */
 a {
   text-decoration: none;
   color: #007bff;
@@ -36,27 +26,20 @@ a:hover {
   text-decoration: underline;
 }
 
-/* Lists */
-ul,
-ol {
+ul,ol {
   margin-top: 0;
   margin-bottom: 10px;
   padding-left: 20px;
 }
 
-/* List Items */
 li {
   margin-bottom: 5px;
 }
 
-/* Forms */
-input,
-select,
-textarea {
+input,select,textarea {
   margin-bottom: 10px;
 }
 
-/* Buttons */
 button {
   cursor: pointer;
   padding: 8px 12px;
